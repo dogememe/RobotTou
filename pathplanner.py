@@ -47,7 +47,7 @@ def main():
             l.insert(0, start_node)
 
         for path in paths:
-            print(1)
+            #print(1)
             counter = 0
             for i in range(0, len(gates)+1):
                 counter += nx.shortest_path_length(Field, path[i], path[i+1])
@@ -55,18 +55,19 @@ def main():
         final_way = paths[lens.index(min(lens))]
 
         #print(final_path,min(lens))
-        print(final_way)
+        #print(final_way)
         for i in range(len(final_way)-1):
             path = list(nx.shortest_path(Field, final_way[i],final_way[i+1]))
             path.pop(0)
             for j in (path):
                 final_path.append(j)
-        print(final_path)
+        #print(final_path)
+        return(final_path)
     #graph it
     def graph():
         nx.draw(Field, with_labels=True, font_weight='bold')
         print(Field)
         plt.show()
     __init__()
-    path_planning()
+    return(path_planning())
 main()
