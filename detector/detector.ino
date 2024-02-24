@@ -1,68 +1,61 @@
 #include <LiquidCrystal_I2C.h>
-
+#include <math.h>
 LiquidCrystal_I2C lcd(0x27,  16, 2);
+
+
+int redLow = 0; //range 1
+int redHigh = 1000;
+int greenLow = 1000; //range 2
+int greenHigh = 3000;
+int blueLow= 3000; //rang3
+int blueHigh = 5000;
+
+int redPin = 2;
+int greenPin = 3;
+int bluePin = 4;
+
 
 void setup() {
   lcd.init();
   lcd.backlight();
-  pinMode(2, OUTPUT);
-  pinMode(3, OUTPUT);
-  pinMode(4, OUTPUT);
-  pinMode(5, OUTPUT);
+  pinMode(redPin, OUTPUT);
+  pinMode(bluePin, OUTPUT);
+  pinMode(greenPin, OUTPUT);
   Serial.begin(9600);
-  delay(1000);
-  lcd.print("TEST MODE");
-  delay(1000);
-  for (int i = 0; i<3; i++){
-    digitalWrite(2,HIGH);
-    delay(25);
-    digitalWrite(2,LOW);
-    digitalWrite(3,HIGH);
-    delay(25);
-    digitalWrite(3,LOW);
-    digitalWrite(4,HIGH);
-    delay(25);
-    digitalWrite(4,LOW);
-    digitalWrite(5,HIGH);
-    delay(25);
-    digitalWrite(5,LOW);
-    lcd.noBacklight();
-    delay(50);
-    
-    
-    
-    
-    lcd.backlight();
-    delay(50);
+}
+void light(int inter){
+  if ((inter > redLow) && (inter <= redHigh)){
+    digitalWrite(redHigh, HIGH);
   }
-  lcd.clear();
-
-    digitalWrite(2,HIGH);
-    digitalWrite(3,HIGH);
-    digitalWrite(4,HIGH);
-    digitalWrite(5,HIGH);
-    delay(500);
-    digitalWrite(5,LOW);
-    digitalWrite(3,LOW);
-    digitalWrite(4,LOW);
-    digitalWrite(2,LOW);
-    delay(1000);
-    digitalWrite(2,HIGH);
-    digitalWrite(3,HIGH);
-    digitalWrite(4,HIGH);
-    digitalWrite(5,HIGH);
-    delay(500);
-    digitalWrite(5,LOW);
-    digitalWrite(3,LOW);
-    digitalWrite(4,LOW);
-    digitalWrite(2,LOW);
+  else{
+    digitalWrite(redHigh, LOW);
+  }
+    if ((greenLow > greenLow) && (inter <= greenHigh)){
+    digitalWrite(greenHigh, HIGH);
+  }
+  else{
+    digitalWrite(greenHigh, LOW);
+  }
+    if ((inter > blueLow) && (inter <= blueHigh)){
+    digitalWrite(blueHigh, HIGH);
+  }
+  else{
+    digitalWrite(blueHigh, LOW);
+  }
+}
+float regression(int inny){
+  return (1.0/(1.0-1.00802*pow(2.71828, 0.00000210813*inny)) + 127.191);
 }
 
+int val = 0;
 void loop() {
-  lcd.setCursor(0,0);
   lcd.clear();
-  lcd.print(5.0*analogRead(0)/1023.0);
-  delay(100);
+  lcd.setCursor(0,0);
+  val = analogRead(A1);
+  lcd.print(5.0*val/1023.0);
+  lcd.setCursor(0,1);
+  lcd.print(regression(val));
+  delay(1000);
   // put your main code here, to run repeatedly:
 
 }
