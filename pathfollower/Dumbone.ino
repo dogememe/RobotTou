@@ -15,9 +15,10 @@ void setup() {
 
 }
 void runBoth(int val){
-  
+
   rmotor.forward(val);
   lmotor.forward(val);
+  
   
 }
 void stopBoth(){
@@ -51,11 +52,16 @@ void Lturn90(){
   }
   stopBoth();
 }
+
+int mils = millis();
 void loop() {
-  runtime(2000, 255);
-  Lturn90();
-  Rturn90();
-  delay(5000);
+  while (millis() < mils+8*1000){
+    runBoth(255);
+    delay(30);
+    stopBoth();
+    delay(30);
+  }
+delay(1000000);
   // put your main code here, to run repeatedly:
 
 }

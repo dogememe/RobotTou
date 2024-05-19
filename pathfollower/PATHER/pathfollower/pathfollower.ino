@@ -187,6 +187,7 @@ void setup() {
   attachInterrupts();
   premo.setX(0);
   premo.setY(0);
+  premo.startPathFollowing(xTraj,yTraj,trajLen);
 }
 
 void sendLocation() {
@@ -198,7 +199,6 @@ void sendLocation() {
     float xGoal = premo.getGoalX();
     float yGoal = premo.getGoalY();
     prevSendTime = millis();
-    //premo.startPathFollowing(xTraj,yTraj,trajLen);
   }
 }
 
@@ -213,8 +213,8 @@ void handleSteering() {
 }
 
 void loop() {
-  //premo.forward(10);
+  premo.forward(10);
   delay(1000);
-  //premo.continuePathFollowing();
+  premo.continuePathFollowing();
   premo.loop();
 }
