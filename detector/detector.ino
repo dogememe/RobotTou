@@ -4,39 +4,43 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 
 int redLow = 3000;  //range 1
-int redHigh = 100000;
+int redHigh = 10000;
 int greenLow = 1500;  //range 2
 int greenHigh = 3000;
-int blueLow = -1000;  //rang3
+int blueLow = 0;  //rang3
 int blueHigh = 1500;
 
-int redPin = 2;
-int greenPin = 3;
-int bluePin = 4;
+int redPin = 3;
+int greenPin = 4;
+int bluePin = 5;
 
 void setup() {
   lcd.init();
   lcd.backlight();
-  pinMode(redPin, OUTPUT);
-  pinMode(bluePin, OUTPUT);
-  pinMode(greenPin, OUTPUT);
+  pinMode(3, OUTPUT);
+  pinMode(4, OUTPUT);
+  pinMode(5, OUTPUT);
   Serial.begin(9600);
 }
 void light(int inter) {
-  if ((inter > redLow) && (inter <= redHigh)) {
-    digitalWrite(redHigh, HIGH);
-  } else {
-    digitalWrite(redHigh, LOW);
+  if (inter > redLow) {
+    Serial.print((inter <= redHigh));
+    
+    if(inter <= redHigh){
+      Serial.print("r2");
+    digitalWrite(redPin, HIGH);
+    Serial.print("RED");
+    }
   }
-  if ((greenLow > greenLow) && (inter <= greenHigh)) {
-    digitalWrite(greenHigh, HIGH);
-  } else {
-    digitalWrite(greenHigh, LOW);
+  if ((greenLow > greenLow)) {
+    if (inter <= greenHigh){
+      digitalWrite(greenPin, HIGH);
+    }
   }
-  if ((inter > blueLow) && (inter <= blueHigh)) {
-    digitalWrite(blueHigh, HIGH);
-  } else {
-    digitalWrite(blueHigh, LOW);
+  if (inter > blueLow) {
+    if(inter <= blueHigh) {
+    digitalWrite(bluePin, HIGH);
+    }
   }
 }
 float ka = -0.998958;
@@ -69,20 +73,14 @@ float val = 0;
 float ppm = 0;
 void loop() {
   lcd.setCursor(0, 0);
-  val = (5.0*sample())/1023.0;
-  ppm = regression(val);
-  light(ppm);
+  val = 1; //(5.0*sample())/1023.0;
+  ppm = 4010;//regression(val);
   lcd.print(val);
-  lcd.print(" VOLTS");
+  //lcd.print(" VOLTS");
   lcd.setCursor(0, 1);
-  lcd.print(regression(val));
-  lcd.print(" PPM");
-  for(int i = 0; i<20; i++){
-    light(ppm);
-    delay(10);
-  }
-  light(ppm);
+  //lcd.print(regression(val));
+  lcd.print("PPM");
+  light(3001);
   delay(5000);
-  lcd.clear();
   // put your main code here, to run repeatedly:
 }
